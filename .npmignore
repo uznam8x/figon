@@ -1,0 +1,5 @@
+src
+node_modules
+.env
+tsconfig.json
+figon.json
