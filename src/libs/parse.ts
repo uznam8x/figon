@@ -18,16 +18,21 @@ function attributes(syntax: string) {
 
 function selector(syntax: string) {
   const regex =
-    /^(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*$/;
+    /^\$(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*$/;
+
   const matched = syntax.match(regex);
 
   if (!!matched) {
     const { groups } = matched;
+
     const { tagName, id, className = "", data = "" } = groups as any;
+
+    const classList = className.split(".").filter((v: any) => !!v);
     return {
       tagName,
       id,
-      classList: className.split(".").filter((v: any) => !!v),
+      classList,
+      className: classList.join(" "),
       attributes: attributes(data),
     };
   }

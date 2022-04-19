@@ -4,6 +4,7 @@ import axios from "axios";
 
 const fetch = axios.create();
 function run(res: any) {
+  // console.log(JSON.stringify(res.data, null, 2));
   const { document, components } = res.data as any;
   storage.setItem("components", components);
   return scaffold(document);
