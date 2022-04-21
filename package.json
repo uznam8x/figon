@@ -6,13 +6,13 @@
   "author": "uznam8x <uznam8x@gmail.com>",
   "license": "MIT",
   "bin": {
-    "figon": "./dist/bin.js"
+    "figon": "./dist/bin/index.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "start": "tsc-watch src/bin.ts --outDir ./dist --onSuccess \"node dist/bin.js\"",
+    "start": "tsc-watch src/bin/index.ts --resolveJsonModule --esModuleInterop --outDir ./dist --onSuccess \"node dist/bin/index.js\"",
     "build": "rm -rf dist && tsc src/bin.ts --declaration --outDir dist"
   },
   "dependencies": {

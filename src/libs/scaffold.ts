@@ -10,7 +10,7 @@ export default (document: any) => {
       (v.children || []).map((v: any) => {
         const { name, id, children = [], absoluteBoundingBox } = v;
         views[id] = R.pipe(
-          R.map((v) => node(v, absoluteBoundingBox)),
+          R.map((v: any) => node(v, absoluteBoundingBox)),
           R.reject(R.isNil),
           R.sort((a: any, b: any) =>
             //* element order

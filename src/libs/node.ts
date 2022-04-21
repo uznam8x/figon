@@ -1,33 +1,7 @@
-import parse from "./parse";
-import storage from "./storage";
 import * as R from "ramda";
-
-export type NodeType = {
-  key: string;
-  type: string;
-  tagName: string;
-  classList: string[];
-  attributes: { [key: string]: any };
-  textContent?: string;
-  children: NodeType[];
-};
-
-export type OffsetType = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
-export type StyleType = Partial<{
-  backgroundColor: string;
-  color: string;
-  fontWeight: number;
-  fontSize: number;
-  lineHeight: number;
-}>;
-
-function property(item: any) {
+import elements from "../elements";
+import type { NodeType, OffsetType } from "../types";
+/* function property(item: any) {
   const name = item.name;
   const content = item.characters;
   const regex = /\{(?<key>.+)\}/;
@@ -64,8 +38,8 @@ function getBorderRadius(size: number | number[]) {
   }
 
   return { borderRadius: Math.round(size) };
-}
-
+} */
+/* 
 function getStyle(item: any): StyleType {
   const {
     type,
@@ -114,7 +88,6 @@ function getStyle(item: any): StyleType {
     styles["gap"] = itemSpacing || 0;
     styles["display"] = "flex";
   }
-  
 
   //* border-radius
   if (!R.isNil(cornerRadius)) {
@@ -122,10 +95,9 @@ function getStyle(item: any): StyleType {
     styles = R.mergeDeepLeft(res, styles);
   }
 
- 
   return styles;
-}
-
+} */
+/* 
 function pluck(item: any) {
   const { type, name, children } = item;
   if (type === "GROUP") {
@@ -138,10 +110,49 @@ function pluck(item: any) {
     return rect;
   }
   return item;
-}
+} */
 
-function node(item: any, bounding: OffsetType): NodeType | null {
-  const components = storage.getItem("components");
+function node(item: NodeType, bounding: OffsetType) {
+  const type = item.type.toLowerCase();
+  if (!(elements as any)[type]) return null;
+
+  const element = (elements as any)[type](item);
+  if (R.isNil(element)) {
+    return null;
+  }
+
+  const { absoluteBoundingBox } = item;
+
+  //* Postion
+  const offset: OffsetType = {
+    ...absoluteBoundingBox,
+    x: absoluteBoundingBox.x - bounding.x,
+    y: absoluteBoundingBox.y - bounding.y,
+  };
+
+  const relativePosition = {
+    ...bounding,
+    x: bounding.x + offset.x,
+    y: bounding.y + offset.y,
+  };
+
+  const res: any = Object.assign(element, {
+    offset,
+    children: R.pipe(
+      R.map((v: any) =>
+        //* Absolute postion to Relative position
+        node(v, relativePosition)
+      ),
+      R.reject(R.isNil),
+      R.sort((a: any, b: any) =>
+        //* element order
+        a.offset.x + a.offset.y < b.offset.x + b.offset.y ? -1 : 1
+      )
+    )(element.children || []),
+  });
+
+  return res;
+  /* const components = storage.getItem("components");
 
   const record = pluck(item);
   const {
@@ -211,7 +222,7 @@ function node(item: any, bounding: OffsetType): NodeType | null {
       )
     )(childNode),
     ...(characters ? { textContent: characters } : {}),
-  } as NodeType;
+  } as ElementType; */
 }
 
 export default node;

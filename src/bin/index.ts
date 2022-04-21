@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as dotenv from "dotenv";
-import compile from "./index";
+import compile from "../index";
 import * as mkdirp from "mkdirp";
 import { program } from "commander";
 import * as fs from "fs-extra";

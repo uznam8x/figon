@@ -106,3 +106,5 @@ dist
 .history
 figon
 backup
+.quokka
+serve
