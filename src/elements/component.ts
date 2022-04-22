@@ -1,10 +1,10 @@
 import type { NodeType } from "../types";
 import * as parser from "../parser";
 export default (item: NodeType) => {
-  const { name, type, children } = item;
+  const { id,name, type, children } = item;
 
   return {
-    name,
+    key: id,
     type,
     tagName: "div",
     children,

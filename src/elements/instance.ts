@@ -1,10 +1,8 @@
-import type { NodeType } from "../types";
-import * as parser from "../parser";
 import storage from "../libs/storage";
-import rectangle from "./rectangle";
-import frame from "./frame";
+import * as parser from "../parser";
+import type { NodeType } from "../types";
 export default (item: NodeType) => {
-  const { name, children, componentId } = item;
+  const { id, name, type, children, componentId } = item;
   const components: any = storage.getItem("components");
   const component = components[componentId!] || {};
 
@@ -13,16 +11,16 @@ export default (item: NodeType) => {
       const [key, value] = b.split("=");
       return { ...a, [key]: value };
     },
-    {}
+    (parser.getAttributes(name) as any).dataset || {}
   );
 
-  const a = rectangle(item);
-  const b = frame(item);
   return {
-    ...rectangle(item),
+    key: id,
+    type,
+    tagName: "div",
     children,
     dataset,
-    style: { ...a.style, ...b.style },
+    style: parser.getStyles(item),
     ...parser.getAttributes(name),
   };
 };

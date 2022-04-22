@@ -19,7 +19,7 @@ function start(token: string, file: string) {
       },
     }).then(run);
   } else {
-    throw new Error("A FigmaToken and FigmaFile are required");
+    throw new Error("A 'FigmaToken' and 'FigmaFile' are required");
   }
 }
 
