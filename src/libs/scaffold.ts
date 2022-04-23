@@ -1,15 +1,15 @@
 import * as R from "ramda";
 import node from "./node";
 export default (document: any) => {
-  let views = {} as { [key: string]: any };
+  let artboards = {} as { [key: string]: any };
 
-  const routes = R.pipe(
+  const pages = R.pipe(
     R.reject((v: any) => !!/^\@/.test(v.name)),
     R.head,
     (v: any) =>
       (v.children || []).map((v: any) => {
         const { name, id, children = [], absoluteBoundingBox } = v;
-        views[id] = R.pipe(
+        artboards[id] = R.pipe(
           R.map((v: any) => node(v, absoluteBoundingBox)),
           R.reject(R.isNil),
           R.sort((a: any, b: any) =>
@@ -17,9 +17,9 @@ export default (document: any) => {
             a.offset.x + a.offset.y < b.offset.x + b.offset.y ? -1 : 1
           )
         )(children);
-        return { path: name, view: id };
+        return { page: name, artboard: id };
       })
   )(document.children);
 
-  return { routes, views };
+  return { pages, artboards };
 };

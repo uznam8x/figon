@@ -2,7 +2,7 @@ import storage from "../libs/storage";
 import * as parser from "../parser";
 import type { NodeType } from "../types";
 export default (item: NodeType) => {
-  const { id, name, type, children, componentId } = item;
+  const { id, name, children, componentId } = item;
   const components: any = storage.getItem("components");
   const component = components[componentId!] || {};
 
@@ -16,7 +16,6 @@ export default (item: NodeType) => {
 
   return {
     key: id,
-    type,
     tagName: "div",
     children,
     dataset,

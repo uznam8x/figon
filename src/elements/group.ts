@@ -3,7 +3,7 @@ import * as R from "ramda";
 import rectangle from "../elements/rectangle";
 import * as parser from "../parser";
 export default (item: NodeType) => {
-  const { id, name, type, children = [] } = item;
+  const { id, name,  children = [] } = item;
 
   //* 그룹 테스트를 조금 더 해야함.
 
@@ -20,7 +20,6 @@ export default (item: NodeType) => {
   return {
     key: id,
     ...alter,
-    type,
     tagName: "div",
     ...parser.getAttributes(name),
   };

@@ -1,7 +1,7 @@
 import * as parser from "../parser";
 import type { NodeType } from "../types";
 export default (item: NodeType) => {
-  const { id, name, type, characters = "" } = item;
+  const { id, name, characters = "" } = item;
   const styles = parser.getStyles(item);
 
   if (!!styles["backgroundColor"]) {
@@ -11,7 +11,6 @@ export default (item: NodeType) => {
 
   return {
     key: id,
-    type,
     tagName: "span",
     textContent: characters,
     style: styles,
