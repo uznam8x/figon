@@ -2,6 +2,11 @@ import * as R from "ramda";
 import elements from "../elements";
 import type { NodeType, OffsetType } from "../types";
 
+function round(a: any, b: any) {
+  const [key, value] = b;
+  return { ...a, [key]: Math.round(value) };
+}
+
 function node(item: NodeType, bounding: OffsetType) {
   const type = item.type.toLowerCase();
   if (!(elements as any)[type]) return null;
@@ -14,17 +19,17 @@ function node(item: NodeType, bounding: OffsetType) {
   const { absoluteBoundingBox } = item;
 
   //* Postion
-  const offset: OffsetType = {
+  const offset: OffsetType = Object.entries({
     ...absoluteBoundingBox,
     x: absoluteBoundingBox.x - bounding.x,
     y: absoluteBoundingBox.y - bounding.y,
-  };
+  }).reduce(round, {});
 
-  const relativePosition = {
+  const relativePosition = Object.entries({
     ...bounding,
     x: bounding.x + offset.x,
     y: bounding.y + offset.y,
-  };
+  }).reduce(round, {});
 
   const res: any = Object.assign(element, {
     offset,

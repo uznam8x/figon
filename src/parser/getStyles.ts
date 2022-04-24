@@ -6,12 +6,16 @@ export default (item: any) => {
     cornerRadius,
     rectangleCornerRadii,
     fills = [],
+    effects = [],
     layoutMode,
     itemSpacing,
     counterAxisAlignItems,
     primaryAxisAlignItems,
     primaryAxisSizingMode,
     style,
+    strokes = [],
+    strokeWeight,
+    strokeAlign,
     layoutGrow,
     paddingLeft,
     paddingRight,
@@ -56,6 +60,40 @@ export default (item: any) => {
   // background
   if (!!fills.length) {
     styles["backgroundColor"] = getRgba(fills[0].color);
+  }
+
+  // border
+
+  if (!!strokes.length) {
+    styles["boxShadow"] = `${strokeAlign === "INSIDE" && "inset "}${(
+      strokes || []
+    )
+      .map(
+        (stroke: any) =>
+          `0 0 0 ${strokeWeight}px ${getRgba({
+            ...stroke.color,
+            a: stroke.opacity,
+          })}`
+      )
+      .join(", ")}`;
+  }
+
+  // effects
+  if (!!effects.length) {
+    effects.forEach((effect: any) => {
+      if (!styles["filter"]) styles["filter"] = "";
+      if (effect.type === "DROP_SHADOW") {
+        const { radius, color, offset } = effect;
+        styles["filter"] += `drop-shadow(
+          ${getRgba(color)} ${offset.x} ${offset.y} ${radius}
+        );`;
+      }
+
+      if (effect.type === "LAYER_BLUR") {
+        const { radius } = effect;
+        styles["filter"] += `blur(${radius}px);`;
+      }
+    });
   }
 
   // border

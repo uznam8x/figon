@@ -3,7 +3,7 @@ import * as R from "ramda";
 import rectangle from "../elements/rectangle";
 import * as parser from "../parser";
 export default (item: NodeType) => {
-  const { id, name,  children = [] } = item;
+  const { id, name, children = [] } = item;
 
   //* 그룹 테스트를 조금 더 해야함.
 
@@ -11,7 +11,16 @@ export default (item: NodeType) => {
   const index = R.findIndex((child: NodeType) => child.type === "RECTANGLE")(
     children
   );
-  if (index === -1) return null;
+
+  if (index === -1) {
+    return {
+      key: id,
+      tagName: "div",
+      style: parser.getStyles(item),
+      children,
+      ...parser.getAttributes(name),
+    };
+  }
 
   const alter: any = rectangle(children[index] as NodeType);
   alter.name = name;
