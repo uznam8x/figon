@@ -59,11 +59,40 @@ export default (item: any) => {
 
   // background
   if (!!fills.length) {
-    styles["backgroundColor"] = getRgba(fills[0].color);
+    styles["backgroundImage"] = fills
+      .map((fill: any) => {
+        if (fill.type === "SOLID") {
+          return (
+            "linear-gradient(0deg, " +
+            `${getRgba(fill.color)} 0%, ${getRgba(fill.color)} 100%` +
+            ")"
+          );
+        }
+        if (fill.type === "GRADIENT_LINEAR") {
+          const angle = function (...args: { x: number; y: number }[]) {
+            const [a, b] = args;
+            return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90;
+          };
+          const [a, b] = fill.gradientHandlePositions;
+          return (
+            `linear-gradient(${angle(a, b)}deg, ` +
+            (fill.gradientStops || [])
+              .map(
+                (gradient: any) =>
+                  `${getRgba(gradient.color)} ${
+                    (gradient.position || 0) * 100
+                  }%`
+              )
+              .join(", ") +
+            ")"
+          );
+        }
+        return "";
+      })
+      .join(",");
   }
 
   // border
-
   if (!!strokes.length) {
     styles["boxShadow"] = `${strokeAlign === "INSIDE" && "inset "}${(
       strokes || []
