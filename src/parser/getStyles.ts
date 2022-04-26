@@ -71,7 +71,7 @@ export default (item: any) => {
         if (fill.type === "GRADIENT_LINEAR") {
           const angle = function (...args: { x: number; y: number }[]) {
             const [a, b] = args;
-            return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90;
+            return Math.round( (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90 );
           };
           const [a, b] = fill.gradientHandlePositions;
           return (
@@ -86,6 +86,10 @@ export default (item: any) => {
               .join(", ") +
             ")"
           );
+        }
+
+        if(fill.type === 'IMAGE') {
+          console.log( fill );
         }
         return "";
       })

@@ -57,3 +57,8 @@ export type NodeType = {
   counterAxisSizingMode?: string;
   primaryAxisSizingMode?: string;
 };
+
+export type ImageType = {
+  type: string;
+  imageRef: string;
+};
