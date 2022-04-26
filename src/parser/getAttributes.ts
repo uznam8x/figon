@@ -1,3 +1,16 @@
+const metadata = (data: any) => {
+  const regex = /^\[(?<keys>.+)\]$/;
+  const matched = data.match(regex);
+  if (matched) {
+    const { keys = "" } = matched.groups || {};
+    return keys.split(",").reduce((a: any, b: any) => {
+      const [key, value] = b.split("=");
+      return { ...a, [key.trim()]: value.trim() };
+    }, {});
+  }
+  return {};
+};
+
 export default (syntax: string) => {
   const regex =
     /^\$(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*$/;
@@ -9,11 +22,7 @@ export default (syntax: string) => {
     const { tagName, id, className = "", data = "" } = groups as any;
     const classList = className.split(".").filter((v: any) => !!v);
 
-    const regex = /([\w]+)=([\w]+)/g;
-    const dataset = (data.match(regex) || []).reduce((a: any, b: any) => {
-      const [key, value] = b.split("=");
-      return { ...a, [key]: value };
-    }, {});
+    let dataset = metadata(data);
 
     const res = {
       tagName,

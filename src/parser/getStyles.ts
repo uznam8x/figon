@@ -3,6 +3,7 @@ import getRgba from "./getRgba";
 import getBorderRadius from "./getBorderRadius";
 export default (item: any) => {
   const {
+    type,
     cornerRadius,
     rectangleCornerRadii,
     fills = [],
@@ -51,49 +52,59 @@ export default (item: any) => {
       styles[key] = flex[key];
     }
   }
-  if (!!layoutGrow) styles["flexGrow"] = layoutGrow;
+  if (!!layoutGrow) {
+    styles["flexGrow"] = layoutGrow;
+    styles["width"] = "100%";
+  }
 
   if (!R.isNil(primaryAxisSizingMode) && primaryAxisSizingMode === "FIXED") {
     styles["flexGrow"] = 1;
+    styles["width"] = "100%";
   }
 
-  // background
-  if (!!fills.length) {
-    styles["backgroundImage"] = fills
-      .map((fill: any) => {
-        if (fill.type === "SOLID") {
-          return (
-            "linear-gradient(0deg, " +
-            `${getRgba(fill.color)} 0%, ${getRgba(fill.color)} 100%` +
-            ")"
-          );
-        }
-        if (fill.type === "GRADIENT_LINEAR") {
-          const angle = function (...args: { x: number; y: number }[]) {
-            const [a, b] = args;
-            return Math.round( (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90 );
-          };
-          const [a, b] = fill.gradientHandlePositions;
-          return (
-            `linear-gradient(${angle(a, b)}deg, ` +
-            (fill.gradientStops || [])
-              .map(
-                (gradient: any) =>
-                  `${getRgba(gradient.color)} ${
-                    (gradient.position || 0) * 100
-                  }%`
-              )
-              .join(", ") +
-            ")"
-          );
-        }
+  // background or color
+  if (type === "TEXT") {
+    styles['color'] = getRgba(fills[0].color);
+  } else {
+    if (!!fills.length) {
+      styles["backgroundImage"] = fills
+        .map((fill: any) => {
+          if (fill.type === "SOLID") {
+            return (
+              "linear-gradient(0deg, " +
+              `${getRgba(fill.color)} 0%, ${getRgba(fill.color)} 100%` +
+              ")"
+            );
+          }
+          if (fill.type === "GRADIENT_LINEAR") {
+            const angle = function (...args: { x: number; y: number }[]) {
+              const [a, b] = args;
+              return Math.round(
+                (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90
+              );
+            };
+            const [a, b] = fill.gradientHandlePositions;
+            return (
+              `linear-gradient(${angle(a, b)}deg, ` +
+              (fill.gradientStops || [])
+                .map(
+                  (gradient: any) =>
+                    `${getRgba(gradient.color)} ${
+                      (gradient.position || 0) * 100
+                    }%`
+                )
+                .join(", ") +
+              ")"
+            );
+          }
 
-        if(fill.type === 'IMAGE') {
-          console.log( fill );
-        }
-        return "";
-      })
-      .join(",");
+          if (fill.type === "IMAGE") {
+            console.log(fill);
+          }
+          return "";
+        })
+        .join(",");
+    }
   }
 
   // border

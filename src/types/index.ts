@@ -38,6 +38,7 @@ export type StyleType = Partial<{
 
 export type NodeType = {
   id: string;
+  visible?: Boolean;
   componentId?: string;
   type: string;
   name: string;

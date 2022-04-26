@@ -9,6 +9,7 @@ function round(a: any, b: any) {
 
 function node(item: NodeType, bounding: OffsetType) {
   const type = item.type.toLowerCase();
+  if(item.visible === false) return null;
   if (!(elements as any)[type]) return null;
 
   const element = (elements as any)[type](item);

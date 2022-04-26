@@ -12,8 +12,8 @@
     "access": "public"
   },
   "scripts": {
-    "start": "tsc-watch src/bin/index.ts --resolveJsonModule --esModuleInterop --outDir ./dist --onSuccess \"node dist/bin/index.js\"",
-    "build": "rm -rf dist && tsc src/bin.ts --declaration --outDir dist"
+    "start": "tsc-watch src/bin/index.ts --declaration --resolveJsonModule --esModuleInterop --outDir ./dist --onSuccess \"node dist/bin/index.js\"",
+    "build": "rm -rf dist && tsc src/bin/index.ts --declaration --outDir dist"
   },
   "dependencies": {
     "axios": "^0.26.1",
