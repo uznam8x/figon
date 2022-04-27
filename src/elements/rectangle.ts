@@ -4,7 +4,7 @@ import storage from "../libs/storage";
 import type { NodeType, ImageType } from "../types";
 
 export default (item: NodeType) => {
-  const { id, name, fills = [] } = item;
+  const { id, name, fills = [], absoluteBoundingBox } = item;
 
   //* 이미지가 포함되어 있다면, img 태그로 imageRef 값을 반환한다.
   const image = R.find(R.propEq("type", "IMAGE"))(fills as any) as ImageType;
@@ -17,10 +17,12 @@ export default (item: NodeType) => {
 
     return { key: id, tagName: "img", ...attrs };
   }
+
+  const { width, height } = absoluteBoundingBox;
   return {
     key: id,
     tagName: "div",
-    style: parser.getStyles(item),
+    style: { ...parser.getStyles(item), minWidth: width, minHeight: height },
     ...parser.getAttributes(name),
   };
 };

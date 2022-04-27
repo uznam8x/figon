@@ -10,9 +10,10 @@ export default (item: any) => {
     effects = [],
     layoutMode,
     itemSpacing,
+    // counterAxisSizingMode,
+    // primaryAxisSizingMode,
     counterAxisAlignItems,
     primaryAxisAlignItems,
-    primaryAxisSizingMode,
     style,
     strokes = [],
     strokeWeight,
@@ -22,6 +23,7 @@ export default (item: any) => {
     paddingRight,
     paddingTop,
     paddingBottom,
+    layoutAlign,
   } = item;
   const styles: any = {};
 
@@ -49,22 +51,32 @@ export default (item: any) => {
     };
 
     for (let key in flex) {
+      if (key === "gap" && flex[key] === 0) continue;
+      if (key === "alignItems" && flex[key] === "flex-start") continue;
+      if (key === "justifyContent" && flex[key] === "flex-start") continue;
+      if (key === "flexDirection" && flex[key] === "row") continue;
       styles[key] = flex[key];
     }
   }
   if (!!layoutGrow) {
     styles["flexGrow"] = layoutGrow;
-    styles["width"] = "100%";
   }
 
-  if (!R.isNil(primaryAxisSizingMode) && primaryAxisSizingMode === "FIXED") {
-    styles["flexGrow"] = 1;
+  /* if (!R.isNil(primaryAxisSizingMode) && primaryAxisSizingMode === "FIXED") {
+    styles["height"] = "100%";
+  }
+
+  if (!R.isNil(counterAxisSizingMode) && counterAxisSizingMode === "FIXED") {
+    styles["width"] = "100%";
+  } */
+  
+  if (!R.isNil(layoutAlign) && layoutAlign === "STRETCH") {
     styles["width"] = "100%";
   }
 
   // background or color
   if (type === "TEXT") {
-    styles['color'] = getRgba(fills[0].color);
+    styles["color"] = getRgba(fills[0].color);
   } else {
     if (!!fills.length) {
       styles["backgroundImage"] = fills
