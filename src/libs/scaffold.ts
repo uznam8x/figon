@@ -9,7 +9,6 @@ export default (document: any) => {
     (v: any) => {
       return (v.children || []).map((v: any) => {
         const { name, id, absoluteBoundingBox } = v;
-        // console.log(JSON.stringify(v, null, 2));
         const view = node(v, absoluteBoundingBox);
         artboards[id] = view;
         return { page: name, artboard: id };

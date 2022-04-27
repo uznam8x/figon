@@ -10,8 +10,8 @@ export default (item: any) => {
     effects = [],
     layoutMode,
     itemSpacing,
-    // counterAxisSizingMode,
-    // primaryAxisSizingMode,
+    counterAxisSizingMode,
+    primaryAxisSizingMode,
     counterAxisAlignItems,
     primaryAxisAlignItems,
     style,
@@ -24,6 +24,7 @@ export default (item: any) => {
     paddingTop,
     paddingBottom,
     layoutAlign,
+    absoluteBoundingBox,
   } = item;
   const styles: any = {};
 
@@ -58,19 +59,20 @@ export default (item: any) => {
       styles[key] = flex[key];
     }
   }
-  if (!!layoutGrow) {
-    styles["flexGrow"] = layoutGrow;
-  }
 
-  /* if (!R.isNil(primaryAxisSizingMode) && primaryAxisSizingMode === "FIXED") {
-    styles["height"] = "100%";
+  if (!R.isNil(primaryAxisSizingMode) && primaryAxisSizingMode === "FIXED") {
+    styles["height"] = absoluteBoundingBox.height;
   }
 
   if (!R.isNil(counterAxisSizingMode) && counterAxisSizingMode === "FIXED") {
-    styles["width"] = "100%";
-  } */
-  
+    styles["width"] = absoluteBoundingBox.width;
+  }
+
   if (!R.isNil(layoutAlign) && layoutAlign === "STRETCH") {
+    styles["width"] = "100%";
+  }
+  if (!!layoutGrow) {
+    styles["flexGrow"] = layoutGrow;
     styles["width"] = "100%";
   }
 
@@ -110,9 +112,6 @@ export default (item: any) => {
             );
           }
 
-          if (fill.type === "IMAGE") {
-            console.log(fill);
-          }
           return "";
         })
         .join(",");
@@ -124,13 +123,12 @@ export default (item: any) => {
     styles["boxShadow"] = `${strokeAlign === "INSIDE" && "inset "}${(
       strokes || []
     )
-      .map(
-        (stroke: any) =>
-          `0 0 0 ${strokeWeight}px ${getRgba({
-            ...stroke.color,
-            a: stroke.opacity,
-          })}`
-      )
+      .map((stroke: any) => {
+        return `0 0 0 ${strokeWeight}px ${getRgba({
+          ...stroke.color,
+          a: stroke.opacity || stroke.color.a,
+        })}`;
+      })
       .join(", ")}`;
   }
 
