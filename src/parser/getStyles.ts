@@ -1,6 +1,7 @@
 import * as R from "ramda";
-import getRgba from "./getRgba";
 import getBorderRadius from "./getBorderRadius";
+import getRgba from "./getRgba";
+
 export default (item: any) => {
   const {
     type,
@@ -165,11 +166,29 @@ export default (item: any) => {
 
   //* font
   if (!R.isNil(style)) {
-    styles["fontWeight"] = style["fontWeight"];
-    styles["fontSize"] = style["fontSize"];
-    styles["lineHeight"] = Math.round(style["lineHeightPx"]) + "px";
-    styles["textAlign"] = style["textAlignHorizontal"].toLowerCase();
+    const { fontWeight, fontSize, lineHeightPx, textAlignHorizontal } = style;
+
+    if(!R.isNil(fontWeight)) styles["fontWeight"] = fontWeight;
+    if(!R.isNil(fontSize)) styles["fontSize"] = fontSize;
+    if(!R.isNil(lineHeightPx)) styles["lineHeight"] = Math.round(lineHeightPx) + "px";;
+    if(!R.isNil(textAlignHorizontal)) styles["textAlign"] = textAlignHorizontal.toLowerCase();
+    
   }
 
-  return styles;
+  const res = { ...style, ...styles };
+
+  [
+    "fontPostScriptName",
+    "textAutoResize",
+    "textAlignHorizontal",
+    "textAlignVertical",
+    "fontFamily",
+    "lineHeightPx",
+    "lineHeightPercent",
+    "lineHeightUnit",
+  ].forEach((attr) => {
+    delete res[attr];
+  });
+
+  return res;
 };

@@ -1,4 +1,4 @@
-const metadata = (data: any) => {
+const dataset = (data: any) => {
   const regex = /^\[(?<keys>.+)\]$/;
   const matched = data.match(regex);
   if (matched) {
@@ -22,14 +22,12 @@ export default (syntax: string) => {
     const { tagName, id, className = "", data = "" } = groups as any;
     const classList = className.split(".").filter((v: any) => !!v);
 
-    let dataset = metadata(data);
-
     const res = {
       tagName,
       id,
       classList,
       className: classList.join(" "),
-      dataset,
+      dataset: dataset(data),
     };
 
     return res;

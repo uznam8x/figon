@@ -1,9 +1,9 @@
 export type ElementType = {
   key: string;
-  type: string;
-  tagName: string;
+  tagName?: string;
   classList: string[];
   className: string;
+  dataset: { [key: string]: any };
   attributes: { [key: string]: any };
   textContent?: string;
   children: ElementType[];
@@ -45,6 +45,8 @@ export type NodeType = {
   children: NodeType[];
   characters?: string;
   style?: any;
+  styles?: { [key: string]: any };
+  effects?: any[];
   fills?: any[];
   absoluteBoundingBox: { x: number; y: number; width: number; height: number };
   layoutMode: "VERTICAL" | "HORIZONTAL";
@@ -57,6 +59,10 @@ export type NodeType = {
   rectangleCornerRadii: number[];
   counterAxisSizingMode?: string;
   primaryAxisSizingMode?: string;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
 };
 
 export type ImageType = {

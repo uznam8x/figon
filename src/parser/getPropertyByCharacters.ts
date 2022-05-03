@@ -7,7 +7,7 @@ export default (item: NodeType) => {
 
   if (matched) {
     const { key } = matched.groups as any;
-    return key ? { [key]: characters } : {};
+    return key ? { [key.trim()]: characters.trim() } : {};
   }
   return {};
 };

@@ -16,7 +16,7 @@
     "allowJs": true,
     "rootDir": "src",
     "outDir": "dist",
-    "types": ["@types/node"]
+    "types": ["@types/node", "@types/jest"]
   },
   "include": ["src/bin/index.ts", "src/index.ts"],
   "exclude": ["node_modules", "dist"]
