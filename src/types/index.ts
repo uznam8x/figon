@@ -49,6 +49,7 @@ export type NodeType = {
   effects?: any[];
   fills?: any[];
   absoluteBoundingBox: { x: number; y: number; width: number; height: number };
+  layoutAlign?: any;
   layoutMode: "VERTICAL" | "HORIZONTAL";
   itemSpacing: number;
   backgroundColor?: any;
@@ -63,9 +64,19 @@ export type NodeType = {
   paddingRight?: number;
   paddingTop?: number;
   paddingBottom?: number;
+  strokes?: any[];
+  strokeWeight?: number;
+  strokeAlign?: string;
 };
 
 export type ImageType = {
   type: string;
   imageRef: string;
+};
+
+export type ColorType = {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 };

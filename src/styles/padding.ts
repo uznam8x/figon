@@ -1,5 +1,5 @@
 import * as R from "ramda";
-import type { NodeType } from "../../types";
+import type { NodeType } from "../types";
 export default (item: NodeType) => {
   const {
     styles = {},
@@ -14,5 +14,6 @@ export default (item: NodeType) => {
   if (!R.isNil(paddingTop)) styles["paddingTop"] = paddingTop;
   if (!R.isNil(paddingBottom)) styles["paddingBottom"] = paddingBottom;
 
-  return Object.assign(item, { styles });
+  return styles;
 };
+

@@ -36,12 +36,12 @@ function node(item: NodeType, bounding: OffsetType) {
     offset,
     children: R.pipe(
       R.map((v: any) =>
-        //* Absolute postion to Relative position
+        //* Absolute postion to relative position
         node(v, relativePosition)
       ),
       R.reject(R.isNil),
       R.sort((a: any, b: any) =>
-        //* element order
+        //* element order from y
         a.offset.x + a.offset.y < b.offset.x + b.offset.y ? -1 : 1
       )
     )(element.children || []),

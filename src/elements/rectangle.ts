@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import * as parser from "../parser";
+import styles from "../styles";
 import storage from "../libs/storage";
 import type { NodeType, ImageType } from "../types";
 
@@ -22,7 +23,7 @@ export default (item: NodeType) => {
   return {
     key: id,
     tagName: "div",
-    style: { ...parser.getStyles(item), minWidth: width, minHeight: height},
+    style: R.mergeLeft({ minWidth: width, minHeight: height }, styles(item)),
     ...parser.getAttributes(name),
   };
 };

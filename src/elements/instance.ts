@@ -1,5 +1,6 @@
 import storage from "../libs/storage";
 import * as parser from "../parser";
+import styles from "../styles";
 import * as R from "ramda";
 import type { NodeType, ElementType } from "../types";
 
@@ -32,7 +33,7 @@ export default (item: NodeType) => {
     key: id,
     tagName: "div",
     children,
-    style: parser.getStyles(item),
+    style: styles(item),
     ...el,
   };
 };

@@ -1,5 +1,5 @@
-import type { NodeType } from "../../types";
-import getRgba from "../getRgba";
+import type { NodeType } from "../types";
+import rgba from "../utils/rgba";
 export default (item: NodeType) => {
   const { style = {}, effects = [] } = item;
 
@@ -10,7 +10,7 @@ export default (item: NodeType) => {
       if (effect.type === "DROP_SHADOW") {
         const { radius, color, offset } = effect;
         styles["filter"] += `drop-shadow(
-          ${getRgba(color)} ${offset.x} ${offset.y} ${radius}
+          ${rgba(color)} ${offset.x} ${offset.y} ${radius}
         );`;
       }
 

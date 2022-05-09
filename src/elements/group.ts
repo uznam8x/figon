@@ -2,7 +2,8 @@ import type { NodeType } from "../types";
 import * as R from "ramda";
 import ellipse from "../elements/ellipse";
 import rectangle from "../elements/rectangle";
-import position from "../parser/styles/position";
+import position from "../styles/position";
+import styles from '../styles';
 import * as parser from "../parser";
 export default (item: NodeType) => {
   const { id, name, children = [], absoluteBoundingBox } = item;
@@ -18,7 +19,7 @@ export default (item: NodeType) => {
     return {
       key: id,
       tagName: "div",
-      style: parser.getStyles(item),
+      style: styles(item),
       children,
       ...parser.getAttributes(name),
     };

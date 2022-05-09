@@ -1,4 +1,5 @@
 import * as parser from "../parser";
+import styles from "../styles";
 import type { NodeType } from "../types";
 
 export default (item: NodeType) => {
@@ -9,7 +10,7 @@ export default (item: NodeType) => {
     key: id,
     tagName: "div",
     style: {
-      ...parser.getStyles(item),
+      ...styles(item),
       borderRadius: "50%",
       overflow: "hidden",
       width,
