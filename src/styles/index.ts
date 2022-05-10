@@ -11,7 +11,7 @@ export default (item: any) => {
 
   const styles = R.pipe(
     R.map((v: any) => v(item)),
-    R.reduce(R.mergeRight, {} as any)
+    R.reduce(R.mergeDeepRight, {} as any)
   )([
     flex,
     type === "TEXT" ? color : backgroundImage,
@@ -21,5 +21,5 @@ export default (item: any) => {
     font,
   ]);
 
-  return styles;
+  return R.omit(["fills", "fill"], styles);
 };

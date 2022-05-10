@@ -13,6 +13,7 @@ export default (item: NodeType) => {
     layoutAlign,
     absoluteBoundingBox,
   } = item;
+
   if (!R.isNil(layoutMode)) {
     const flex: any = {
       display: "flex",

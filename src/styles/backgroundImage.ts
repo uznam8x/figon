@@ -2,7 +2,7 @@ import type { NodeType, ColorType } from "../types";
 import rgba from "../utils/rgba";
 
 function draw(angle: number, color: string) {
-  return `linear-gradient(${angle}deg, ${color} );`;
+  return `linear-gradient(${angle}deg, ${color} )`;
 }
 
 function solid(color: ColorType) {

@@ -4,6 +4,7 @@ import type { NodeType } from "../types";
 export default (item: NodeType) => {
   const { id, name, characters = "" } = item;
 
+
   return {
     key: id,
     tagName: "span",

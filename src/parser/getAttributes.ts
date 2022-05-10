@@ -1,3 +1,4 @@
+import * as R from "ramda";
 const dataset = (data: any) => {
   const regex = /^\[(?<keys>.+)\]$/;
   const matched = data.match(regex);
@@ -12,25 +13,35 @@ const dataset = (data: any) => {
 };
 
 export default (syntax: string) => {
-  const regex =
+  const selector =
     /^\$(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*$/;
 
-  const matched = syntax.match(regex);
+  const matched = syntax.match(selector);
 
   if (!!matched) {
     const { groups } = matched;
     const { tagName, id, className = "", data = "" } = groups as any;
     const classList = className.split(".").filter((v: any) => !!v);
 
-    const res = {
+    const res: any = {
       tagName,
-      id,
       classList,
       className: classList.join(" "),
       dataset: dataset(data),
     };
 
+    if (!R.isNil(id)) {
+      res["id"] = id.replace("#", "");
+    }
     return res;
+  }
+
+  const variable = /^\[:(\w+)\]$/;
+  if (variable.test(syntax)) {
+    const matched: any = syntax.match(variable);
+    return {
+      bind: matched[1],
+    };
   }
 
   return {};
