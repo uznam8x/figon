@@ -2,7 +2,7 @@ import type { NodeType } from "../types";
 export default (item: NodeType) => {
   const { name, characters = "" } = item;
 
-  const regex = /\{(?<key>.+)\}/;
+  const regex = /\{\:(?<key>.+)\}/;
   const matched = name.match(regex);
 
   if (matched) {

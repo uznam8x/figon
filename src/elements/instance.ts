@@ -18,7 +18,7 @@ export default (item: NodeType) => {
     el.dataset || {}
   );
 
-  const attrs = R.filter((v: NodeType) => /^\{.+\}$/.test(v.name || ""))(
+  const attrs = R.filter((v: NodeType) => /^\{\:.+\}$/.test(v.name || ""))(
     children
   );
 

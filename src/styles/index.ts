@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import backgroundImage from "./backgroundImage";
+import borderRadius from "./borderRadius";
 import border from "./border";
 import color from "./color";
 import effect from "./effect";
@@ -17,6 +18,7 @@ export default (item: any) => {
     type === "TEXT" ? color : backgroundImage,
     effect,
     border,
+    borderRadius,
     padding,
     font,
   ]);
