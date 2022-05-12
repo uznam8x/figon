@@ -12,11 +12,15 @@ const dataset = (data: any) => {
   return {};
 };
 
-export default (syntax: string) => {
-  const selector =
-    /^\$(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*$/;
+export const selector = (syntax: string) => {
+  const regex =
+    /^\$(?<tagName>[\*|\w|\-]+)?(?<id>#[\w|\-]+)?(?<className>\.[\w|\-|\.]+)*(?<data>\[.+\])*(?<style>\{.+\})*$/;
 
-  const matched = syntax.match(selector);
+  return syntax.match(regex);
+};
+
+export default (syntax: string) => {
+  const matched = selector(syntax);
 
   if (!!matched) {
     const { groups } = matched;
