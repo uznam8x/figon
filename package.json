@@ -1,6 +1,6 @@
 {
   "name": "figon",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "dist/index.js",
   "repository": "git@github.com:uznam8x/deact.git",
   "author": "uznam8x <uznam8x@gmail.com>",
