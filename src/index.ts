@@ -5,7 +5,7 @@ const fetch = axios.create();
 function run(res: any) {
   const [files, images] = res;
   const { document, components } = files.data as any;
-  // console.log(JSON.stringify(files.data, null, 2))
+  // console.log(JSON.stringify(images.data, null, 2))
   storage.setItem("components", components);
   storage.setItem("images", images.data.meta.images);
   return scaffold(document);

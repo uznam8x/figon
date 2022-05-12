@@ -6,7 +6,7 @@ const dataset = (data: any) => {
     const { keys = "" } = matched.groups || {};
     return keys.split(",").reduce((a: any, b: any) => {
       const [key, value] = b.split("=");
-      return { ...a, [key.trim()]: value.trim() };
+      return { ...a, [key.trim()]: value.trim().replace(/['"]/g, "") };
     }, {});
   }
   return {};
