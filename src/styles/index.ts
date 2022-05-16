@@ -25,12 +25,13 @@ export const inlineStyle = (syntax: string) => {
   const matched = selector(syntax);
   if (!!matched) {
     const { style } = matched.groups as any;
+    if (!style) return {};
 
     const inline = style
       .replace(/[\{\}]/g, "")
       .split(",")
       .reduce((a: any, b: any) => {
-        const [key, value] = b.split("=");
+        const [key, value = ""] = b.split("=");
         return { ...a, [key.trim()]: value.trim().replace(/['"]/g, "") };
       }, {});
     return !!Object.keys(inline).length ? alias(inline) : {};
@@ -54,8 +55,7 @@ export default (item: any) => {
     font,
   ]);
 
-  const res = {...styles, ...inlineStyle(name)};
-  
+  const res = { ...styles, ...inlineStyle(name) };
 
   return R.omit(["fills", "fill"], res);
 };

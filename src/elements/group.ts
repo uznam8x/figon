@@ -3,7 +3,7 @@ import * as R from "ramda";
 import ellipse from "../elements/ellipse";
 import rectangle from "../elements/rectangle";
 import position from "../styles/position";
-import styles from '../styles';
+import styles from "../styles";
 import * as parser from "../parser";
 export default (item: NodeType) => {
   const { id, name, children = [], absoluteBoundingBox } = item;
@@ -25,18 +25,19 @@ export default (item: NodeType) => {
     };
   }
 
-  let alter: any = null;
-  if (children[index].type === "RECTANGLE") {
-    alter = rectangle(children[index] as NodeType);
-  } else {
-    alter = ellipse(children[index] as NodeType);
-  }
+  const alter: NodeType =
+    children[index].type === "RECTANGLE"
+      ? rectangle(children[index])
+      : ellipse(children[index]);
+
   alter.name = name;
   alter.style["position"] = "relative";
   alter.children = R.pipe(
     R.remove(index, 1) as any,
     R.map((v: NodeType) => {
-      return R.mergeDeepLeft({ style: {position: 'absolute', ...position(v, absoluteBoundingBox)} })(v);
+      return R.mergeDeepLeft({
+        style: { position: "absolute", ...position(v, absoluteBoundingBox) },
+      })(v);
     })
   )(children);
 

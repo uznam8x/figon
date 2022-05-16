@@ -29,6 +29,7 @@ function gradient(position: any[], steps: any[]) {
 export default (item: NodeType) => {
   const { styles = {}, fills = [] } = item;
 
+  if(!fills.length) return styles;
   styles["backgroundImage"] = fills
     .map((fill: any) => {
       if (fill.type === "SOLID") {

@@ -32,7 +32,7 @@ function node(item: NodeType, bounding: OffsetType) {
     y: bounding.y + offset.y,
   }).reduce(round, {});
 
-  const res: any = Object.assign(element, {
+  const res: NodeType = Object.assign(element, {
     offset,
     children: R.pipe(
       R.map((v: any) =>
